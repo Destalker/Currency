@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+function loadXMLDoc(value)
+{
+	if (value == "")
+		return;
+
+	var xmlhttp = new XMLHttpRequest();
+	var txt,x,xx,i;
+	
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			x=xmlhttp.responseXML.documentElement.getElementsByTagName("CURRENCY");
+			for (i=0;i<x.length;i++)
+			{
+				xx=x[i].getElementsByTagName("NAME");
+	
+				try
+				{
+					if (xx[0].firstChild.nodeValue == value)
+					{
+						var xxx = x[i].getElementsByTagName("VALUE");
+						txt = xxx[0].firstChild.nodeValue;
+					}
+					
+				}
+				catch (er)
+				{
+				}
+			}
+    
+		document.getElementById('main').innerHTML=txt + " " + value;
+		}
+  }
+	
+	xmlhttp.open('GET', 'currency_info.xml', true);
+	xmlhttp.send();
+}
+</script>
+</head>
+<body>
+<select name="from" onchange="loadXMLDoc(this.value)">
+<option value="" selected="selected">Please select</option>
+<option value="EUR">EUR  Euro</option>
+<option value="JPY">JPY  Japan Yen</option>
+<option value="USD">USD  United States of America Dollars</option>
+<option value="GBP">GBP  United Kingdom Pounds</option>
+<option value="SEK">SEK  Sweden Kronor</option>
+<option value="CHF">CHF  Switzerland Francs</option>
+</select> 
+
+<h2><b>100 CZK = </b><span id="main">100 CZK</span></h2>
+</body>
+</html>
